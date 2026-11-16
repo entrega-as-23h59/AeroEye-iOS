@@ -22,12 +22,32 @@ final class AeroEyeUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    func testLoginAndTabNavigation() throws {
         let app = XCUIApplication()
         app.launch()
 
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let emailField = app.textFields["Email or username"]
+        XCTAssertTrue(emailField.waitForExistence(timeout: 8))
+        emailField.tap()
+        emailField.typeText("demo@aeroeye.com")
+
+        let passwordField = app.secureTextFields["Password"]
+        XCTAssertTrue(passwordField.waitForExistence(timeout: 3))
+        passwordField.tap()
+        passwordField.typeText("password")
+
+        app.buttons.matching(NSPredicate(format: "label CONTAINS 'Sign In'")).firstMatch.tap()
+
+        XCTAssertTrue(app.staticTexts["Machine Monitor"].waitForExistence(timeout: 8))
+
+        app.buttons["Drone"].tap()
+        XCTAssertTrue(app.staticTexts["Live Stream"].waitForExistence(timeout: 3))
+
+        app.buttons["AR"].tap()
+        XCTAssertTrue(app.staticTexts["AR Mode"].waitForExistence(timeout: 3))
+
+        app.buttons["Dashboard"].tap()
+        XCTAssertTrue(app.staticTexts["Machine Monitor"].waitForExistence(timeout: 3))
     }
 
     func testLaunchPerformance() throws {

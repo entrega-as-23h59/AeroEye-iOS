@@ -11,7 +11,7 @@ import SwiftUI
 struct AeroEyeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
     }
 }
